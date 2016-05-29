@@ -1,5 +1,8 @@
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -45,23 +48,35 @@ public class DealorNoDealGUI {
     public JPanel view;
     public String username;
     public int playersCase;
+    private Toolkit kit;
     
     public DealorNoDealGUI(){
         this.username = "";
         frame=new JFrame("Deal Or No Deal");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        Toolkit kit = Toolkit.getDefaultToolkit();
+        kit = Toolkit.getDefaultToolkit();
         frame.setSize(kit.getScreenSize().width, kit.getScreenSize().height);
-        view = new JPanel();
+        view = new JPanel(new BorderLayout());
         frame.add(view);
         welcome();
     }
     
     public void intiateGame(){
         game = new DealOrNoDeal(username, playersCase);
-        
-        
+        JPanel prize1 = new JPanel(new BorderLayout(2, 0));
+        JPanel prize2 = new JPanel(new BorderLayout(2, 0));
+        JPanel cases = new JPanel(new BorderLayout(1, 1));
+        prize1.setPreferredSize(new Dimension(kit.getScreenSize().width/4, kit.getScreenSize().height));
+        prize2.setPreferredSize(new Dimension(kit.getScreenSize().width/4, kit.getScreenSize().height));
+        cases.setPreferredSize(new Dimension(kit.getScreenSize().width/2, kit.getScreenSize().height));
+        prize1.setBackground(Color.yellow);
+        prize2.setBackground(Color.black);
+        cases.setBackground(Color.green);
+        view.add(prize1, BorderLayout.WEST);
+        view.add(cases, BorderLayout.CENTER);
+        view.add(prize2, BorderLayout.EAST);
+        view.updateUI();
     }
     
     public void choseACase(){
@@ -79,7 +94,7 @@ public class DealorNoDealGUI {
                  playersCase = Integer.parseInt(output);
                  view.removeAll();
                  view.updateUI();
-                 initiateGame();
+                 intiateGame();
             }
         
         }
@@ -89,8 +104,8 @@ public class DealorNoDealGUI {
             cases[x].addActionListener(new CaseSelection());
             caseview.add(cases[x]);
         }
-        view.add(a);
-        view.add(caseview);
+        view.add(a, BorderLayout.NORTH);
+        view.add(caseview, BorderLayout.CENTER);
         view.updateUI();
     }
     
@@ -126,8 +141,8 @@ public class DealorNoDealGUI {
         }
         b.addActionListener(new WelcomeAction(userinput));
         welcome.setText("What is your name?");        
-        view.add(userinput);
-        view.add(b);
+        view.add(userinput, BorderLayout.NORTH);
+        view.add(b, BorderLayout.EAST);
         
     }
     
