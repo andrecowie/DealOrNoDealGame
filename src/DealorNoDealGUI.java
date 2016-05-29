@@ -48,17 +48,28 @@ public class DealorNoDealGUI {
     }
     
     public JPanel updateCases(){
-        for(int )
+        JPanel updated_panel = new JPanel(new GridLayout(5, 5));
+        updated_panel.setPreferredSize(new Dimension(kit.getScreenSize().width/2, kit.getScreenSize().height));
+        JButton[] case_clicks = new JButton[26];
+        for(int i=0; i < 26; i++ ){
+            case_clicks[i]= new JButton(""+(i+1));
+            case_clicks[i].setActionCommand(""+i);
+            updated_panel.add(case_clicks[i]);
+        }
+        
+        return updated_panel;
     }
     
     public JPanel updatePrize1(){
-        JPanel prize1 = new JPanel(new BorderLayout(2, 0));
+        JPanel prize1 = new JPanel();
         prize1.setPreferredSize(new Dimension(kit.getScreenSize().width/4, kit.getScreenSize().height));
         JLabel[] prizeLabels = new JLabel[13];
         for(int x = 0; x < 13; x++){
             for(int i = 0; i< 26; i++){
-                if(game.prizes[x] == game.getCases()[i].getDollarsInside()){
+                if(game.getCases()[i].getDollarsInside() == game.prizes[x]){
+                    System.out.print(game.getCases()[i]);
                     if(game.getCases()[i].isOpen()){
+                        System.out.println(game.prizes[x]);
                         prizeLabels[x] = new JLabel(""+game.prizes[x]);
                         prizeLabels[x].setForeground(Color.pink);
                     }else{
@@ -73,6 +84,7 @@ public class DealorNoDealGUI {
     
     public JPanel updatePrize2(){
         JPanel prize2 = new JPanel(new BorderLayout(2, 0));
+        return prize2;
     }
     
     public void intiateGame(){
@@ -80,7 +92,8 @@ public class DealorNoDealGUI {
         
         //cases.setPreferredSize(new Dimension(kit.getScreenSize().width/2, kit.getScreenSize().height));
        
-        view.add(updatePrize1());
+        view.add(updateCases(), BorderLayout.CENTER);
+        view.add(updatePrize1(), BorderLayout.WEST);
         view.updateUI();
     }
     
