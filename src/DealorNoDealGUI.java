@@ -67,9 +67,11 @@ public class DealorNoDealGUI {
         JPanel prize1 = new JPanel(new BorderLayout(2, 0));
         JPanel prize2 = new JPanel(new BorderLayout(2, 0));
         JPanel cases = new JPanel(new BorderLayout(1, 1));
+        JPanel playerDets = new JPanel(new BorderLayout(2, 2));
         prize1.setPreferredSize(new Dimension(kit.getScreenSize().width/4, kit.getScreenSize().height));
         prize2.setPreferredSize(new Dimension(kit.getScreenSize().width/4, kit.getScreenSize().height));
         cases.setPreferredSize(new Dimension(kit.getScreenSize().width/2, kit.getScreenSize().height));
+        
         prize1.setBackground(Color.yellow);
         prize2.setBackground(Color.black);
         cases.setBackground(Color.green);
@@ -81,8 +83,8 @@ public class DealorNoDealGUI {
     
     public void choseACase(){
         JLabel a = new JLabel("Pick a case.");
-        System.out.println("In chose a case");
         JPanel caseview = new JPanel();
+        caseview.add(a);
         GridLayout buttons = new GridLayout(3,10);
         caseview.setLayout(buttons);
         JButton[] cases = new JButton[26];
@@ -104,7 +106,6 @@ public class DealorNoDealGUI {
             cases[x].addActionListener(new CaseSelection());
             caseview.add(cases[x]);
         }
-        view.add(a, BorderLayout.NORTH);
         view.add(caseview, BorderLayout.CENTER);
         view.updateUI();
     }
@@ -141,8 +142,10 @@ public class DealorNoDealGUI {
         }
         b.addActionListener(new WelcomeAction(userinput));
         welcome.setText("What is your name?");        
-        view.add(userinput, BorderLayout.NORTH);
-        view.add(b, BorderLayout.EAST);
+        JPanel subPanel = new JPanel();
+        subPanel.add(userinput);
+        subPanel.add(b);
+        view.add(subPanel, BorderLayout.SOUTH);
         
     }
     
