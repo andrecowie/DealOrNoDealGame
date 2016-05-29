@@ -7,7 +7,7 @@
 import java.util.*;
 
 public class DealOrNoDeal {
-    private static Integer[] prizes = {0, 1, 2, 5, 10, 20, 50, 100, 150, 200, 500, 750, 1000, 2000, 3000, 4000, 5000, 10000, 15000, 20000, 30000, 50000, 75000, 100000, 200000, 500000};
+    static Integer[] prizes = {0, 1, 2, 5, 10, 20, 50, 100, 150, 200, 500, 750, 1000, 2000, 3000, 4000, 5000, 10000, 15000, 20000, 30000, 50000, 75000, 100000, 200000, 500000};
     private Case[] cases = new Case[26];
     Case[] sortedCases = new Case[26];
     private Player contestant;

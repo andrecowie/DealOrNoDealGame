@@ -7,7 +7,6 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static java.lang.Thread.sleep;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -16,20 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
-import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
 
 /*
@@ -62,22 +47,40 @@ public class DealorNoDealGUI {
         welcome();
     }
     
+    public JPanel updateCases(){
+        for(int )
+    }
+    
+    public JPanel updatePrize1(){
+        JPanel prize1 = new JPanel(new BorderLayout(2, 0));
+        prize1.setPreferredSize(new Dimension(kit.getScreenSize().width/4, kit.getScreenSize().height));
+        JLabel[] prizeLabels = new JLabel[13];
+        for(int x = 0; x < 13; x++){
+            for(int i = 0; i< 26; i++){
+                if(game.prizes[x] == game.getCases()[i].getDollarsInside()){
+                    if(game.getCases()[i].isOpen()){
+                        prizeLabels[x] = new JLabel(""+game.prizes[x]);
+                        prizeLabels[x].setForeground(Color.pink);
+                    }else{
+                        prizeLabels[x] = new JLabel(""+game.prizes[x]);
+                    }
+                }
+            }
+            prize1.add(prizeLabels[x]);
+        }
+        return prize1;
+    }
+    
+    public JPanel updatePrize2(){
+        JPanel prize2 = new JPanel(new BorderLayout(2, 0));
+    }
+    
     public void intiateGame(){
         game = new DealOrNoDeal(username, playersCase);
-        JPanel prize1 = new JPanel(new BorderLayout(2, 0));
-        JPanel prize2 = new JPanel(new BorderLayout(2, 0));
-        JPanel cases = new JPanel(new BorderLayout(1, 1));
-        JPanel playerDets = new JPanel(new BorderLayout(2, 2));
-        prize1.setPreferredSize(new Dimension(kit.getScreenSize().width/4, kit.getScreenSize().height));
-        prize2.setPreferredSize(new Dimension(kit.getScreenSize().width/4, kit.getScreenSize().height));
-        cases.setPreferredSize(new Dimension(kit.getScreenSize().width/2, kit.getScreenSize().height));
         
-        prize1.setBackground(Color.yellow);
-        prize2.setBackground(Color.black);
-        cases.setBackground(Color.green);
-        view.add(prize1, BorderLayout.WEST);
-        view.add(cases, BorderLayout.CENTER);
-        view.add(prize2, BorderLayout.EAST);
+        //cases.setPreferredSize(new Dimension(kit.getScreenSize().width/2, kit.getScreenSize().height));
+       
+        view.add(updatePrize1());
         view.updateUI();
     }
     
@@ -130,10 +133,14 @@ public class DealorNoDealGUI {
             
             @Override
             public void actionPerformed(ActionEvent ae) {
-                updateUser();
-                view.removeAll();
-                view.updateUI();
-                choseACase();
+                if(textFieldStore.getText().length()<1){
+                    
+                }else{
+                    updateUser();
+                    view.removeAll();
+                    view.updateUI();
+                    choseACase();
+                }
             }
             public void updateUser(){
                 username = textFieldStore.getText();
