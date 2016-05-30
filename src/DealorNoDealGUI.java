@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -51,10 +52,33 @@ public class DealorNoDealGUI {
         JPanel updated_panel = new JPanel(new GridLayout(5, 5));
         updated_panel.setPreferredSize(new Dimension(kit.getScreenSize().width/2, kit.getScreenSize().height));
         JButton[] case_clicks = new JButton[26];
+        
+        class OpenCase implements ActionListener{
+
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                 int caseToOpen = Integer.parseInt(ae.getActionCommand());
+                 game.getCases()[caseToOpen].setOpen(true);
+                 JPanel dollarsInside = new JPanel();
+                 JPanel fresh = new JPanel();
+                 view.removeAll();
+                 view.updateUI();
+                 view.add(updatePrize1());
+                 view.add(updateCases());
+                 view.add(updatePrize2());
+                 
+            }
+        
+        }
+        
         for(int i=0; i < 26; i++ ){
-            case_clicks[i]= new JButton(""+(i+1));
-            case_clicks[i].setActionCommand(""+i);
-            updated_panel.add(case_clicks[i]);
+                if (game.getCases()[i].isOpen() || game.getCases()[i].isSelected()){
+                }else{
+                    case_clicks[i]= new JButton(""+(i+1));
+                    case_clicks[i].setActionCommand(""+i);
+                    case_clicks[i].addActionListener(new OpenCase());
+                    updated_panel.add(case_clicks[i]);
+                }
         }
         
         return updated_panel;
@@ -83,7 +107,24 @@ public class DealorNoDealGUI {
     }
     
     public JPanel updatePrize2(){
-        JPanel prize2 = new JPanel(new BorderLayout(2, 0));
+        JPanel prize2 = new JPanel();
+        prize2.setPreferredSize(new Dimension(kit.getScreenSize().width/4, kit.getScreenSize().height));
+        JLabel[] prizeLabels = new JLabel[13];
+        for(int x = 13; x < 26; x++){
+            for(int i = 0; i< 26; i++){
+                if(game.getCases()[i].getDollarsInside() == game.prizes[x]){
+                    System.out.print(game.getCases()[i]);
+                    if(game.getCases()[i].isOpen()){
+                        System.out.println(game.prizes[x]);
+                        prizeLabels[x-13] = new JLabel(""+game.prizes[x]);
+                        prizeLabels[x-13].setForeground(Color.pink);
+                    }else{
+                        prizeLabels[x-13] = new JLabel(""+game.prizes[x]);
+                    }
+                }
+            }
+            prize2.add(prizeLabels[x-13]);
+        }
         return prize2;
     }
     
@@ -94,6 +135,7 @@ public class DealorNoDealGUI {
        
         view.add(updateCases(), BorderLayout.CENTER);
         view.add(updatePrize1(), BorderLayout.WEST);
+        view.add(updatePrize2(), BorderLayout.EAST);
         view.updateUI();
     }
     
