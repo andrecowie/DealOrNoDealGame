@@ -17,6 +17,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import static java.lang.Thread.sleep;
 import static java.lang.Thread.sleep;
+import javax.swing.BoxLayout;
+import javax.swing.SwingConstants;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -58,15 +60,17 @@ public class DealorNoDealGUI {
             @Override
             public void actionPerformed(ActionEvent ae) {
                  int caseToOpen = Integer.parseInt(ae.getActionCommand());
-                 game.getCases()[caseToOpen].setOpen(true);
-                 JPanel dollarsInside = new JPanel();
-                 JPanel fresh = new JPanel();
+                 game.getCases()[caseToOpen].setOpen(true);                 
+                 JPanel fresh = new JPanel(new BorderLayout());                 
+                 JPanel updatedBottom = bottomPanel();
+                 updatedBottom.add(recentOpen(caseToOpen));
+                 fresh.add(updatePrize1(), BorderLayout.WEST);
+                 fresh.add(updateCases(), BorderLayout.CENTER);
+                 fresh.add(updatePrize2(), BorderLayout.EAST);
+                 fresh.add(updatedBottom, BorderLayout.SOUTH);
                  view.removeAll();
+                 view.add(fresh);                 
                  view.updateUI();
-                 view.add(updatePrize1());
-                 view.add(updateCases());
-                 view.add(updatePrize2());
-                 
             }
         
         }
@@ -84,20 +88,33 @@ public class DealorNoDealGUI {
         return updated_panel;
     }
     
+    public JLabel recentOpen(int caseNum){
+        JLabel caseContained = new JLabel("Case Contained: "+game.getCases()[caseNum].getDollarsInside().toString());
+        return caseContained;
+    }
+    
+    public JPanel bottomPanel(){
+        JPanel bottom_panel = new JPanel();
+        JLabel name = new JLabel("Player: "+username);
+        JLabel caseSelected = new JLabel("Case Selected: "+(playersCase-1));
+        bottom_panel.add(name);
+        bottom_panel.add(caseSelected);
+        return bottom_panel;
+    }
+    
     public JPanel updatePrize1(){
         JPanel prize1 = new JPanel();
+        prize1.setLayout(new BoxLayout(prize1, BoxLayout.PAGE_AXIS));
         prize1.setPreferredSize(new Dimension(kit.getScreenSize().width/4, kit.getScreenSize().height));
         JLabel[] prizeLabels = new JLabel[13];
         for(int x = 0; x < 13; x++){
             for(int i = 0; i< 26; i++){
                 if(game.getCases()[i].getDollarsInside() == game.prizes[x]){
-                    System.out.print(game.getCases()[i]);
                     if(game.getCases()[i].isOpen()){
-                        System.out.println(game.prizes[x]);
-                        prizeLabels[x] = new JLabel(""+game.prizes[x]);
+                        prizeLabels[x] = new JLabel(""+game.prizes[x], SwingConstants.LEFT);
                         prizeLabels[x].setForeground(Color.pink);
                     }else{
-                        prizeLabels[x] = new JLabel(""+game.prizes[x]);
+                        prizeLabels[x] = new JLabel(""+game.prizes[x], SwingConstants.LEFT);
                     }
                 }
             }
@@ -108,18 +125,17 @@ public class DealorNoDealGUI {
     
     public JPanel updatePrize2(){
         JPanel prize2 = new JPanel();
+        prize2.setLayout(new BoxLayout(prize2, BoxLayout.PAGE_AXIS));
         prize2.setPreferredSize(new Dimension(kit.getScreenSize().width/4, kit.getScreenSize().height));
         JLabel[] prizeLabels = new JLabel[13];
         for(int x = 13; x < 26; x++){
             for(int i = 0; i< 26; i++){
                 if(game.getCases()[i].getDollarsInside() == game.prizes[x]){
-                    System.out.print(game.getCases()[i]);
                     if(game.getCases()[i].isOpen()){
-                        System.out.println(game.prizes[x]);
-                        prizeLabels[x-13] = new JLabel(""+game.prizes[x]);
+                        prizeLabels[x-13] = new JLabel(""+game.prizes[x], SwingConstants.RIGHT);
                         prizeLabels[x-13].setForeground(Color.pink);
                     }else{
-                        prizeLabels[x-13] = new JLabel(""+game.prizes[x]);
+                        prizeLabels[x-13] = new JLabel(""+game.prizes[x], SwingConstants.RIGHT);
                     }
                 }
             }
@@ -136,6 +152,7 @@ public class DealorNoDealGUI {
         view.add(updateCases(), BorderLayout.CENTER);
         view.add(updatePrize1(), BorderLayout.WEST);
         view.add(updatePrize2(), BorderLayout.EAST);
+        view.add(bottomPanel(), BorderLayout.SOUTH);
         view.updateUI();
     }
     
