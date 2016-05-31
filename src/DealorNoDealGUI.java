@@ -56,20 +56,10 @@ public class DealorNoDealGUI {
         view.removeAll();
         if (x) {
             JPanel youWon = new JPanel(new BorderLayout());
-            JLabel congrats = new JLabel("Congratulations you won: $" + game.Offer() + " Inside Case " + (playersCase + 1));
+            JLabel congrats = new JLabel("Congratulations you won: $" + game.Offer() + " Inside Case " + (playersCase + 1), SwingConstants.CENTER);
             youWon.add(congrats, BorderLayout.CENTER);
             view.add(youWon, BorderLayout.CENTER);
-            view.updateUI();
         } else {
-            JLabel nd = new JLabel("No Deal!");
-            view.add(nd, BorderLayout.CENTER);
-            view.updateUI();
-            try {
-                sleep(2000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(DealorNoDealGUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            view.removeAll();
             JPanel fresh = new JPanel(new BorderLayout());
             fresh.add(updatePrize1(), BorderLayout.WEST);
             fresh.add(updateCases(), BorderLayout.CENTER);
@@ -77,12 +67,13 @@ public class DealorNoDealGUI {
             fresh.add(bottomPanel(), BorderLayout.SOUTH);
             view.add(fresh);
         }
+        view.updateUI();
     }
 
     public void BankOffer() {
         JPanel dond = new JPanel(new BorderLayout());
         JPanel ynae = new JPanel();
-        JLabel offer = new JLabel("The Banker Offers You: $" + game.Offer());
+        JLabel offer = new JLabel("The Banker Offers You: $" + game.Offer(), SwingConstants.CENTER);
         JButton yes = new JButton("Deal");
         JButton no = new JButton("No Deal");
         yes.setActionCommand("true");
@@ -101,7 +92,7 @@ public class DealorNoDealGUI {
         ynae.add(yes);
         ynae.add(no);
         dond.add(ynae, BorderLayout.SOUTH);
-        view.add(dond);
+        view.add(dond, BorderLayout.CENTER);
         view.updateUI();
     }
 
@@ -125,8 +116,10 @@ public class DealorNoDealGUI {
                 fresh.add(updatePrize2(), BorderLayout.EAST);
                 fresh.add(updatedBottom, BorderLayout.SOUTH);
                 count++;
-                if (count == 6 || count == 11) {
+                if (count == 6 || count == 11|| count == 15 || count == 18 || count == 20 || count == 22 || count == 23 || count == 24 ) {
                     BankOffer();
+                }else if (count == 25){
+                //finish to be implemented    
                 }else{
                     view.add(fresh);
                     view.updateUI();
@@ -165,17 +158,17 @@ public class DealorNoDealGUI {
 
     public JPanel updatePrize1() {
         JPanel prize1 = new JPanel();
-        prize1.setLayout(new BoxLayout(prize1, BoxLayout.PAGE_AXIS));
+        prize1.setLayout(new BoxLayout(prize1, BoxLayout.Y_AXIS));
         prize1.setPreferredSize(new Dimension(kit.getScreenSize().width / 4, kit.getScreenSize().height));
         JLabel[] prizeLabels = new JLabel[13];
         for (int x = 0; x < 13; x++) {
             for (int i = 0; i < 26; i++) {
                 if (game.getCases()[i].getDollarsInside() == game.prizes[x]) {
                     if (game.getCases()[i].isOpen()) {
-                        prizeLabels[x] = new JLabel("" + game.prizes[x], SwingConstants.LEFT);
+                        prizeLabels[x] = new JLabel("$" + game.prizes[x], SwingConstants.CENTER);
                         prizeLabels[x].setForeground(Color.pink);
                     } else {
-                        prizeLabels[x] = new JLabel("" + game.prizes[x], SwingConstants.LEFT);
+                        prizeLabels[x] = new JLabel("$" + game.prizes[x], SwingConstants.CENTER);
                     }
                 }
             }
@@ -186,17 +179,17 @@ public class DealorNoDealGUI {
 
     public JPanel updatePrize2() {
         JPanel prize2 = new JPanel();
-        prize2.setLayout(new BoxLayout(prize2, BoxLayout.PAGE_AXIS));
+        prize2.setLayout(new BoxLayout(prize2, BoxLayout.Y_AXIS));
         prize2.setPreferredSize(new Dimension(kit.getScreenSize().width / 4, kit.getScreenSize().height));
         JLabel[] prizeLabels = new JLabel[13];
         for (int x = 13; x < 26; x++) {
             for (int i = 0; i < 26; i++) {
                 if (game.getCases()[i].getDollarsInside() == game.prizes[x]) {
                     if (game.getCases()[i].isOpen()) {
-                        prizeLabels[x - 13] = new JLabel("" + game.prizes[x], SwingConstants.RIGHT);
+                        prizeLabels[x - 13] = new JLabel("$" + game.prizes[x], SwingConstants.RIGHT);
                         prizeLabels[x - 13].setForeground(Color.pink);
                     } else {
-                        prizeLabels[x - 13] = new JLabel("" + game.prizes[x], SwingConstants.RIGHT);
+                        prizeLabels[x - 13] = new JLabel("$" + game.prizes[x], SwingConstants.RIGHT);
                     }
                 }
             }
@@ -207,8 +200,6 @@ public class DealorNoDealGUI {
 
     public void intiateGame() {
         game = new DealOrNoDeal(username, playersCase);
-
-        //cases.setPreferredSize(new Dimension(kit.getScreenSize().width/2, kit.getScreenSize().height));
         view.add(updateCases(), BorderLayout.CENTER);
         view.add(updatePrize1(), BorderLayout.WEST);
         view.add(updatePrize2(), BorderLayout.EAST);
