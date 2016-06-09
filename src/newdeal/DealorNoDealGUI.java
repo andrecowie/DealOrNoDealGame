@@ -21,10 +21,25 @@ import static java.lang.Thread.sleep;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
+import static java.lang.Thread.sleep;
 
 /**
  * DealOrNoDealGUI Class creates and populates a JFrame with the functionality
- * of the deal or no deal game.
+ * of the deal or no deal game. We decided it would be wiser to use our CLI class as the model
+ * for our GUI game so that we don't have to rewrite the functionality that the intial CLI version provides.
+ * This class/main works by first welcoming a user (getting the username).
+ * Then the user selects a case that holds a prize (getting playerscase).
+ * Then the game is initiated.
+ * The game is played by opening cases, which then updates the view to make the prize that was inside the case go pink 
+ * on the right and left side depending on the value of the prize. UpdateCases, UpdatePrize1, UpdatePrize2, UpdateBottomPanel
+ * After a certain number of cases have been opened the player is offered a prize from the banker. BankOffer
+ * If the player likes the value they can select deal where they will receive their prize, if they don't like the value they
+ * can select no deal which will trigger them to go back to opening more cases. Deal
  *
  * @author Andre Cowie 14862344
  * @author Tony van Swet 0829113
@@ -40,7 +55,8 @@ public class DealorNoDealGUI {
     public int playersCase;
     private Toolkit kit;
     public int count;
-
+    
+    //Deal or no deal gui containing a frame, view, a game and also the players username and selected case.
     public DealorNoDealGUI() {
         count = 0;
         this.username = "";
@@ -54,6 +70,7 @@ public class DealorNoDealGUI {
         welcome();
     }
 
+    //Is the offer from the banker accepted, If so congratulate, if not keep playing.
     public void Deal(boolean x) {
         view.removeAll();
         if (x) {
@@ -76,6 +93,7 @@ public class DealorNoDealGUI {
         view.updateUI();
     }
 
+    //Give the player an offer based on an average of the prizes that are still available in the prize pool. Player can accept or decline.
     public void BankOffer() {
         JPanel dond = new JPanel(new BorderLayout());
         JPanel ynae = new JPanel();
@@ -104,7 +122,8 @@ public class DealorNoDealGUI {
         view.add(dond, BorderLayout.CENTER);
         view.updateUI();
     }
-
+    
+    //Update the buttons available to open the cases that are still shut. On a button click the case is opened removing the prize from the prize pool.
     public JPanel updateCases() {
         JPanel updated_panel = new JPanel(new GridLayout(5, 5));
         updated_panel.setPreferredSize(new Dimension(kit.getScreenSize().width / 2, kit.getScreenSize().height));
@@ -166,12 +185,14 @@ public class DealorNoDealGUI {
         return updated_panel;
     }
 
+    //The prize contained within the case that was most recently opened.
     public JLabel recentOpen(int caseNum) {
         JLabel caseContained = new JLabel("| Case Contained: $" + game.getCases()[caseNum].getDollarsInside().toString());
         caseContained.setFont(caseContained.getFont().deriveFont(30.0f));
         return caseContained;
     }
 
+    //The bottom panel contains information about the user playing the game, the case that is in their possession and the prize that was in the most recently opened case.
     public JPanel bottomPanel() {
         JPanel bottom_panel = new JPanel();
         JLabel name = new JLabel("Player: " + username);
@@ -183,6 +204,7 @@ public class DealorNoDealGUI {
         return bottom_panel;
     }
 
+    //Update the prize pool on the left, dark prize remains in an unopened case, pink the prize was in a case that has been opened. 
     public JPanel updatePrize1() {
         JPanel prize1 = new JPanel();
         prize1.setLayout(new BoxLayout(prize1, BoxLayout.Y_AXIS));
@@ -210,6 +232,7 @@ public class DealorNoDealGUI {
         return prize1;
     }
 
+    //Update the prize pool on the right, dark prize remains in an unopened case, pink the prize was in a case that has been opened. 
     public JPanel updatePrize2() {
         JPanel prize2 = new JPanel();
         prize2.setLayout(new BoxLayout(prize2, BoxLayout.Y_AXIS));
@@ -236,6 +259,7 @@ public class DealorNoDealGUI {
         return prize2;
     }
 
+    //Intiate the deal or no deal game, the game is controlled by the actionlisteners on the buttons within the panels.
     public void intiateGame() {
         game = new DealOrNoDeal(username, playersCase);
         view.add(updateCases(), BorderLayout.CENTER);
@@ -245,7 +269,7 @@ public class DealorNoDealGUI {
         view.updateUI();
     }
         
-
+    //Choose a case that you think has the highest value prize within. There are 26 cases.
     public void choseACase() {
         JLabel a = new JLabel("Pick a case.");
         a.setFont(a.getFont().deriveFont(30.0f));
@@ -286,7 +310,8 @@ public class DealorNoDealGUI {
         view.add(caseview);
         view.updateUI();
     }
-
+    
+    //Welcome the player to the game and ask for their name.
     public void welcome() {
         JLabel welcome = new JLabel("Welcome to deal or no deal!", JLabel.CENTER);
         welcome.setFont(welcome.getFont().deriveFont(40.0f));
@@ -337,7 +362,8 @@ public class DealorNoDealGUI {
         view.add(subPanel, BorderLayout.SOUTH);
 
     }
-
+    
+    //Play the GUI version of deal or no deal.
     public static void main(String[] args) {
         new DealorNoDealGUI();
     }

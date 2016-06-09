@@ -19,7 +19,9 @@ public class Case implements Comparable<Case>{
         setOpen(false);
         setSelected(false);
     }
-
+    
+    //We believe this class is rather self-explainatory in it's role within the game.
+    
     public boolean isOpen() {
         return open;
     }

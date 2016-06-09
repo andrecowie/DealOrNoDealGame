@@ -2,6 +2,16 @@ package newdeal;
 
 
 /**
+ * DealOrNoDeal
+ * 
+ * This is a game that is played on TV commonly, the goal is to walk away with the biggest prize possible.
+ * The player selects a case to put in their possession they then begin opening cases.
+ * Each case contains a prize.
+ * When a case is opened the prize is no longer available.
+ * As the player opens the cases, the banker gives offers based on the remaining prizes in the unopened cases.
+ * The player can accept or decline the bankers offer.
+ * If the player declines all the bankers offers they will receive the prize that is in the case they originally chose to possess.
+ * 
  * Created by 
  * @author Andre Cowie 14862344 on 16/03/2016
  * @author Tony van Swet 0829113 5/04/2016
@@ -18,6 +28,8 @@ public class DealOrNoDeal {
 
     public static Scanner scan = new Scanner(System.in);
 
+    //A game of deal or no deal is started once a player has identifyed them self and has chosen a case for their possession.
+    //On the creation of the game the prizes are shuffled and put into the cases.
     public DealOrNoDeal(String _contestantName, int _selectedCase) {
         this.contestant = new Player(_contestantName);
         setSelectedCase(_selectedCase);
@@ -34,6 +46,7 @@ public class DealOrNoDeal {
         this.cases[_selectedCase].setSelected(true);
     }
 
+    //An offer from the banker based on the average from prizes that remain in unopened cases.
     public int Offer() {
         int totalAccumulated = 0;
         int remainingUnopened = 0;
@@ -46,6 +59,7 @@ public class DealOrNoDeal {
         return totalAccumulated / remainingUnopened;
     }
 
+    //Whether the player accepts the offer they have been given... DEAL or NO DEAL?
     public boolean isItADeal() {
         System.out.println("Great you have opened enough cases for the banker to give you an offer.");
         int bankersDeal = this.Offer();
@@ -86,12 +100,14 @@ public class DealOrNoDeal {
         }
     }
 
+    //Open a case...
     public void openCase(int caseNumber) {
         this.cases[caseNumber].setOpen(true);
         System.out.println("You opened case number: " + (caseNumber + 1));
         System.out.println("It contained: $" + this.cases[caseNumber].getDollarsInside());
     }
 
+    //Select a case to open. Once selected open that case in the method above.
     public void pickACase() {
         System.out.println("Pick a case!");
         printClosedCases();
@@ -113,7 +129,8 @@ public class DealOrNoDeal {
         }
     }
 
-    public String printCases() {
+    //The status of the prizes, whether they still remain in unopened cases or whether the cases they resided in have been opened.
+    public String printPrizeStatuss() {
         String openedCases = "Opened Prizes: ";
         String closedCases = "\nPrizes Still Available: ";
         for (int i = 0; i < 26; i++) {
@@ -132,6 +149,7 @@ public class DealOrNoDeal {
         return openedCases.substring(0, openedCases.length() - 2) + closedCases.substring(0, closedCases.length() - 2);
     }
 
+    //Print the cases that are closed and waiting to be opened, not including the case in the players possession.
     public void printClosedCases() {
         System.out.print("Available Cases: ");
         for (int i = 0; i < 26; i++) {
@@ -143,6 +161,7 @@ public class DealOrNoDeal {
         System.out.println(" ");
     }
 
+    //Welcome the player to Deal or no deal and get the identity of the player.
     public static String welcomePlayer(){
         System.out.println("Welcome to deal or no deal!");
         System.out.println("What is your name?");
@@ -154,8 +173,9 @@ public class DealOrNoDeal {
         System.out.print("We wish you good luck " + playerName + ".\nNow lets get underway, we have twenty-six cases each containing potential prize that you could win!\n");
         return playerName;
     }
-
-    public static int selectContestantsCast(){
+    
+    //Select the case the player wants.
+    public static int selectContestantsCase(){
         int playersCase = 0;
 
         while(playersCase < 1 || playersCase > 26){
@@ -172,12 +192,13 @@ public class DealOrNoDeal {
         return playersCase;
     }
 
+    //Open a number of cases then get a bank offer.
     public boolean openSomeCases(int howMany){
         System.out.println("Great you will now open "+howMany+" cases in a row and then the banker will give you an offer");
         for (int i = 0; i < howMany; i++) {
             pickACase();
         }
-        System.out.println(this.printCases());
+        System.out.println(this.printPrizeStatuss());
         if (this.isItADeal()) {
             return true;
         }else{
@@ -185,17 +206,18 @@ public class DealOrNoDeal {
         }
     }
 
-
+    //The flow of our deal or no deal game. Welcome player then let the player select their case. Then open cases and get offers.
+    //If the player reaches the last two cases they are given a final offer, if they don't accept they get the value in their case.
     public static void main(String[] args) {
         DBInteractions interact = new DBInteractions();
         String playerName = welcomePlayer();
+        int playersCase = selectContestantsCase();
         interact.establishConnection();
         interact.createGamesTable();
-        System.out.println(interact.newPlayerLoad(playerName));
-        int playersCase = selectContestantsCast();
-        System.out.println("Its time to play deal or no deal!!!");
         DealOrNoDeal game = new DealOrNoDeal(playerName, playersCase);
-
+        System.out.println(interact.newPlayerLoad(playerName));
+        System.out.println("Its time to play deal or no deal!!!");
+        
         for(int i = 6; i > 0;i--){
             if(i==2 || i==1){
                 if(game.openSomeCases(i)){
@@ -231,6 +253,8 @@ public class DealOrNoDeal {
             }
         }
     }
+    
+    //Below are some methods to allow for encapsulation of the deal or no deals key objects, some of these methods are utilized by the GUI class.
 
     public Case[] getCases() {
         return cases;

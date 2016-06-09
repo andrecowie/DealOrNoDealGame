@@ -6,9 +6,22 @@ import java.util.logging.Logger;
 /**
  * DBInteractions Class
  * 
+ * This is our class that achieves interactions with our database.
+ * First make sure that in NetBeans you configure JavaDB's properties so that the:
+ * Java DB Installation points to our db-derby-10.121.1-bin file we have included in our project and
+ * that the 
+ * Database location points to the TOP level of our project /DealOrNoDealGame/
+ * This insures the database will be able to be run in your NetBeans.
+ * 
+ * This classes methods provide functionality to 
+ * establish a connection to the database.
+ * find out some particular values from a user's previous dealornodeal game.
+ * to save some particular values from a player's dealornodeal game to the database.
+ * And to create the table in the database with the particular values if the database isn't present.
+ * 
  * @author Andre Cowie 14862344 
  * @author Tony van Swet 0829113 
- * 
+ *
  * @version 29/05/2016
  */
 public class DBInteractions {
@@ -60,7 +73,7 @@ public class DBInteractions {
         }
     }
     
-    //Working as expected
+    //Will display a previous players games
     public String newPlayerLoad(String playerName){
         ResultSet rs=null;
         String playersPrevious = "";
@@ -84,7 +97,7 @@ public class DBInteractions {
         return playersPrevious;
     }
     
-    //Working as expected
+    //Will save a players game to the database
     public void savePlayersGame(String playerName, int caseSelected, int prizeRecieved){
         ResultSet rs=null;
         try{
