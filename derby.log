@@ -12,3 +12,5 @@ os.arch=amd64
 os.version=4.5.4-1-ARCH
 derby.system.home=/home/abc/Documents/Uni/Y2S1/PDC/Assignment/DealOrNoDealGame
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri Jun 10 12:23:58 NZST 2016: Shutting down Derby engine

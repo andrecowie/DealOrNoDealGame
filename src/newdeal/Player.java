@@ -25,4 +25,13 @@ public class Player {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this.name.equals(((Player)o).name)){
+            return true;
+        }
+        return false;
+    }
+    
 }
